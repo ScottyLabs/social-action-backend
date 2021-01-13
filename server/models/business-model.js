@@ -10,4 +10,23 @@ const Business = new Schema(
     { timestamps: true },
 )
 
-module.exports = mongoose.model('businesses', Business)
+var Member = mongoose.model('businesses', Business);
+
+function pipe(database){
+
+    const pipeline = [
+        {
+            '$sample': {
+              'size': 1
+            }
+        }
+    ];
+    
+    const aggCursor = database.aggregate(pipeline);
+
+    console.log(`${aggCursor._id}: ${aggCursor.name}`);
+}
+
+pipe(Member);
+
+module.exports = Member;
