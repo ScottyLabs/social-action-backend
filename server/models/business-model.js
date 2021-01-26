@@ -22,11 +22,16 @@ function pipe(database){
         }
     ];
     
-    const aggCursor = database.aggregate(pipeline);
+    const aggCursor = database.aggregate(pipeline, function( err, data ) {
 
-    console.log(`${aggCursor._id}: ${aggCursor.name}`);
+        if ( err )
+          throw err;
+    
+        console.log( JSON.stringify( data, undefined, 2 ) );
+    
+      });
 }
 
-pipe(Member);
+// pipe(Member);
 
 module.exports = Member;
