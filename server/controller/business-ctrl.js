@@ -116,10 +116,37 @@ getBusinesses = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
+pipe = async(req, res) => {
+
+    const pipeline = [
+      {
+        '$sample': {
+          'size': 1
+        }
+      }
+    ];
+
+    await Business.aggregate(pipeline, function( err, data ) {
+
+        if ( err ) return res.status(400).json({ success: false, error: err });
+        if (!businesses.length) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Business not found` })
+        }
+        console.log(JSON.stringify(data, undefined, 2));
+        return res.status(200).json({ success: true, data: data });
+
+    }).catch(err => console.log(err));
+
+    await new Promise(r => setTimeout(r, 2000));
+}
+
 module.exports = {
     createBusiness,
     updateBusiness,
     deleteBusiness,
     getBusinesses,
     getBusinessById,
+    pipe
 }
