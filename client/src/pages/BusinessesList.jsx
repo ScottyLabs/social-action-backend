@@ -51,99 +51,6 @@ class DeleteBusiness extends Component {
     }
 }
 
-class pipeBus extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            columns: [],
-            businesses: [],
-            isLoading: false,
-        }
-    }
-
-    componentDidMount = async () => {
-        this.setState({ isLoading: true })
-
-        await api.pipeBis().then(businesses => {
-            this.setState({
-                businesses: businesses.data,
-                isLoading: false,
-            })
-        })
-    }
-
-    render() {
-        const { businesses, isLoading } = this.state
-        console.log('TCL: BusinessesList -> render -> businesses', businesses)
-
-        const columns = [
-            {
-                Header: 'ID',
-                accessor: '_id',
-                filterable: true,
-            },
-            {
-                Header: 'Name',
-                accessor: 'name',
-                filterable: true,
-            },
-            {
-                Header: 'Website',
-                accessor: 'website',
-                filterable: true,
-            },
-            {
-                Header: 'Type',
-                accessor: 'categories',
-                Cell: props => <span>{props.value.join(' / ')}</span>,
-            },
-            {
-                Header: '',
-                accessor: '',
-                Cell: function(props) {
-                    return (
-                        <span>
-                            <DeleteBusiness id={props.original._id} />
-                        </span>
-                    )
-                },
-            },
-            {
-                Header: '',
-                accessor: '',
-                Cell: function(props) {
-                    return (
-                        <span>
-                            <UpdateBusiness id={props.original._id} />
-                        </span>
-                    )
-                },
-            },
-        ]
-
-        let showTable = true
-        if (!businesses.length) {
-            showTable = false
-        }
-
-        return (
-            <Wrapper>
-                {showTable && (
-                    <ReactTable
-                        data={businesses}
-                        columns={columns}
-                        loading={isLoading}
-                        defaultPageSize={10}
-                        showPageSizeOptions={true}
-                        minRows={0}
-                    />
-                )}
-                
-            </Wrapper>
-        )
-    }
-}
-
 class BusinessesList extends Component {
     constructor(props) {
         super(props)
@@ -237,4 +144,4 @@ class BusinessesList extends Component {
     }
 }
 
-export default pipeBus
+export default BusinessesList

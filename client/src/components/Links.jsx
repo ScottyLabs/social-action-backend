@@ -33,6 +33,11 @@ class Links extends Component {
                                 Create Business
                             </Link>
                         </Item>
+                        <Item>
+                            <Link to="/businesses/get" className="nav-link">
+                                Get Business
+                            </Link>
+                        </Item>
                     </List>
                 </Collapse>
             </React.Fragment>

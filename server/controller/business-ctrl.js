@@ -112,6 +112,7 @@ getBusinesses = async (req, res) => {
                 .status(404)
                 .json({ success: false, error: `Business not found` })
         }
+        //console.log(JSON.stringify(businesses, undefined, 2));
         return res.status(200).json({ success: true, data: businesses })
     }).catch(err => console.log(err))
 }
@@ -135,7 +136,7 @@ pipe = async(req, res) => {
                 .json({ success: false, error: `Business not found` })
         }
         console.log(JSON.stringify(businesses, undefined, 2));
-        return res.status(200).json({ success: true, businesses: businesses });
+        return res.status(200).json({ success: true, data: businesses });
 
     }).catch(err => console.log(err));
 
