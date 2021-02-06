@@ -51,12 +51,12 @@ class DeleteBusiness extends Component {
     }
 }
 
-class BusinessesList extends Component {
+class pipeBus extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            businesses: [],
             columns: [],
+            businesses: [],
             isLoading: false,
         }
     }
@@ -64,9 +64,9 @@ class BusinessesList extends Component {
     componentDidMount = async () => {
         this.setState({ isLoading: true })
 
-        await api.getAllBusinesses().then(businesses => {
+        await api.pipeBis().then(businesses => {
             this.setState({
-                businesses: businesses.data.data,
+                businesses: businesses.data,
                 isLoading: false,
             })
         })
@@ -94,7 +94,7 @@ class BusinessesList extends Component {
             },
             {
                 Header: 'Type',
-                accessor: 'type',
+                accessor: 'categories',
                 Cell: props => <span>{props.value.join(' / ')}</span>,
             },
             {
@@ -138,9 +138,103 @@ class BusinessesList extends Component {
                         minRows={0}
                     />
                 )}
+                
             </Wrapper>
         )
     }
 }
 
-export default BusinessesList
+class BusinessesList extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            businesses: [],
+            columns: [],
+            isLoading: false,
+        }
+    }
+
+    componentDidMount = async () => {
+        this.setState({ isLoading: true })
+
+        await api.getAllBusinesses().then(businesses => {
+            this.setState({
+                businesses: businesses.data.data,
+                isLoading: false,
+            })
+        })
+    }
+
+    render() {
+        const { businesses, isLoading } = this.state
+        console.log('TCL: BusinessesList -> render -> businesses', businesses)
+
+        const columns = [
+            {
+                Header: 'ID',
+                accessor: '_id',
+                filterable: true,
+            },
+            {
+                Header: 'Name',
+                accessor: 'name',
+                filterable: true,
+            },
+            {
+                Header: 'Website',
+                accessor: 'website',
+                filterable: true,
+            },
+            {
+                Header: 'Type',
+                accessor: 'categories',
+                Cell: props => <span>{props.value.join(' / ')}</span>,
+            },
+            {
+                Header: '',
+                accessor: '',
+                Cell: function(props) {
+                    return (
+                        <span>
+                            <DeleteBusiness id={props.original._id} />
+                        </span>
+                    )
+                },
+            },
+            {
+                Header: '',
+                accessor: '',
+                Cell: function(props) {
+                    return (
+                        <span>
+                            <UpdateBusiness id={props.original._id} />
+                        </span>
+                    )
+                },
+            },
+        ]
+
+        let showTable = true
+        if (!businesses.length) {
+            showTable = false
+        }
+
+        return (
+            <Wrapper>
+                {showTable && (
+                    <ReactTable
+                        data={businesses}
+                        columns={columns}
+                        loading={isLoading}
+                        defaultPageSize={10}
+                        showPageSizeOptions={true}
+                        minRows={0}
+                    />
+                )}
+                
+            </Wrapper>
+        )
+    }
+}
+
+export default pipeBus

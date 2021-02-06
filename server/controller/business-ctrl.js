@@ -126,7 +126,7 @@ pipe = async(req, res) => {
       }
     ];
 
-    await Business.aggregate(pipeline, function( err, data ) {
+    await Business.aggregate(pipeline, function( err, businesses ) {
 
         if ( err ) return res.status(400).json({ success: false, error: err });
         if (!businesses.length) {
@@ -134,8 +134,8 @@ pipe = async(req, res) => {
                 .status(404)
                 .json({ success: false, error: `Business not found` })
         }
-        console.log(JSON.stringify(data, undefined, 2));
-        return res.status(200).json({ success: true, data: data });
+        console.log(JSON.stringify(businesses, undefined, 2));
+        return res.status(200).json({ success: true, businesses: businesses });
 
     }).catch(err => console.log(err));
 
