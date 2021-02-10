@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install && npm start",
-    "heroku-postbuild": "cd client && npm install && npm start && \n"
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && npm install && npm start"
   },
   "keywords": [],
   "author": "",
