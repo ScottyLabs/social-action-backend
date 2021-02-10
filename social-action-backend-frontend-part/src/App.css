@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+body {
+  margin: 0;
+}
+.App {
+  width: 100vw;
+  height: 100vh;
+  background: url("./assets/cover.jpg");
+  background-size: cover;
+
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+  padding: 5rem;
+}
+
+mark {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+a.unsplash {
+  color: white;
+}
+
+.App > div {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  max-height: 100%;
+}
+
+.spotlight {
+  width: 50%;
+  max-width: 800px;
+}
+
+.overview {
+  width: 40%;
+  max-width: 600px;
+}

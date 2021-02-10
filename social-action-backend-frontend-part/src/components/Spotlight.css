@@ -1,0 +1,35 @@
+.spotlight {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.spotlight-body {
+  padding: 1rem;
+  font-size: 14px;
+}
+
+.spotlight-body h2 {
+  margin-top: 0;
+}
+
+.spotlight-body button {
+  border: none;
+  background: #333;
+  color: white;
+  padding: 1rem 3rem;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  margin: 1rem auto;
+}
+
+.spotlight img {
+  width: 100%;
+  object-fit: cover;
+  max-height: 200px;
+}
+
+.spotlight .scroll {
+  padding: 0.5rem 2rem;
+  text-align: center;
+  background: #333;
+  color: white;
+}
