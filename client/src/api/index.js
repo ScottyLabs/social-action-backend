@@ -7,9 +7,11 @@ const api = axios.create({
 })
 
 export const pipeBis = () => api.get(`/`)
+export const pipeAllBis = () => api.get('/businesses')
 
 const apis = {
-    pipeBis
+    pipeBis,
+    pipeAllBis
 }
 
 export default apis

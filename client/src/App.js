@@ -1,90 +1,99 @@
-import React, { useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import axios from "axios";
+import api from './api'
 
 import Spotlight from "./components/Spotlight";
 import Overview from "./components/Overview";
 import "./App.css";
 // import { getRandomPhotoURL } from "./unsplash.js";
 
-const apiBaseURL = "https://api.unsplash.com/";
-const authHeader = "Client-ID " + process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
-const unsplashURLSuffix = "?utm_source=pgh_keeps_tabs&utm_medium=referral";
-const unsplashURL = "https://unsplash.com/" + unsplashURLSuffix;
+import Table from "./Table";
+//import "./App.css";
+
+const Categories = ({ values }) => {
+  return (
+    <>
+      {values.map((category, idx) => {
+        return (
+          <span key={idx} className="badge">
+            {category}
+          </span>
+        );
+      })}
+    </>
+  );
+};
+
 
 function App() {
-  const [unsplashRes, setUnsplashRes] = React.useState(null);
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Business Details",
+        columns: [
+          {
+            Header: "Name",
+            accessor: "firm_name"
+          },
+          {
+            Header: "Categories",
+            accessor: "categories",
+            Cell: ({ cell: { value } }) => <Categories values={value} />
+          }
+        ]
+      },
+      {
+        Header: "Info",
+        columns: [
+          {
+            Header: "Products",
+            accessor: "work_description"
+          },
+          {
+            Header: "Phone #",
+            accessor: "phone_number"
+          },
+          {
+            Header: "Address",
+            accessor: "physical_address"
+          },
+          {
+            Header: "Website",
+            accessor: "website"
+            //Cell: ({ cell: { value } }) => <Genres values={value} />
+          }
+        ]
+      }
+    ],
+    []
+  );
 
-  // GET RANDOM PHOTO REQUEST
-  function setRandomPhotoURL() {
-    return axios
-      .get(apiBaseURL + "photos/random?orientation=landscape", {
-        headers: {
-          "Accept-Version": "v1",
-          Authorization: authHeader,
-        },
-        params: {
-          query: "background",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setUnsplashRes({
-          imageURL: res.data.urls.regular,
-          userURL: res.data.user.links.html,
-          userFullName:
-            res.data.user.first_name + " " + res.data.user.last_name,
-        });
-        triggerDownload(res.data.id);
-        return res.data.urls.regular;
-      })
-      .catch((err) => console.error(err));
-  }
-
-  // TRIGGER PHOTO DOWNLOAD
-  function triggerDownload(photoId) {
-    axios
-      .get(apiBaseURL + "photos/" + photoId + "/download", {
-        headers: {
-          "Accept-Version": "v1",
-          Authorization: authHeader,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.error(err));
-  }
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    setRandomPhotoURL();
+    (async () => {
+      const result =  await api.pipeAllBis()//await axios("https://api.tvmaze.com/search/shows?q=snow");
+      console.log(result)
+     // console.log(result.data)
+      setData(result.data.data);
+    })();
   }, []);
 
+  const HomePageHeader = () => {
+    return (
+      <header className="header">
+        <h2>PGH Keeps Tabs</h2>
+      </header>
+    );
+  };
+
   return (
-    <div
-      className="App"
-      style={{
-        backgroundImage: `url(${unsplashRes ? unsplashRes.imageURL : ""})`,
-      }}
-    >
-      <div>
-        <Overview />
-        <Spotlight />
-      </div>
-      {unsplashRes && (
-        <p>
-          <mark>
-            Photo by{" "}
-            <a className="unsplash" href={unsplashRes.userURL}>
-              {unsplashRes.userFullName}
-            </a>{" "}
-            on{" "}
-            <a className="unsplash" href={unsplashURL}>
-              Unsplash
-            </a>
-          </mark>
-        </p>
-      )}
+    <>
+    <HomePageHeader />
+    <div className="App">
+      <Table columns={columns} data={data} />
     </div>
+    </>
   );
 }
 
