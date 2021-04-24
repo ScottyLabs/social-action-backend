@@ -4,6 +4,7 @@ const BusinessCtrl = require('../controller/business-ctrl')
 
 const router = express.Router()
 
-router.get('/', BusinessCtrl.pipe)
+router.get('/business', BusinessCtrl.pipe)
+router.get('/', BusinessCtrl.getBusinesses)
 
 module.exports = router

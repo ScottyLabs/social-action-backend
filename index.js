@@ -6,7 +6,7 @@ const db = require('./db')
 const businessRouter = require('./routes/business-router')
 
 const app = express()
-const apiPort = 5000 || process.env.PORT
+const apiPort = process.env.PORT || 3000
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
