@@ -25,6 +25,7 @@ const Categories = ({ values }) => {
 };
 
 
+
 function App() {
   const columns = useMemo(
     () => [
@@ -59,7 +60,8 @@ function App() {
           },
           {
             Header: "Website",
-            accessor: "website"
+            accessor: "website",
+            Cell: e =><a href={e.value}> {e.value} </a>
             //Cell: ({ cell: { value } }) => <Genres values={value} />
           }
         ]
