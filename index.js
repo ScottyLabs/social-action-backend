@@ -18,9 +18,5 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 app.use('/api', businessRouter)
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
-
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
