@@ -1,9 +1,13 @@
 import axios from 'axios'
 
-const host = process.env.PORT || 3000 ;
+require('dotenv').config()
+
+const host = process.env.PORT || 3000;
+
+require('dotenv').config();
 
 const api = axios.create({
-    baseURL: `http://localhost:${host}/api`
+    baseURL: process.env.REACT_APP_BASE_URL + `/api`
 })
 
 export const pipeBis = () => api.get(`/`)
